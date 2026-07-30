@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 const PHONE_CALL = "524421186062";
 const PHONE_QUOTE = "524461255861";
@@ -51,6 +51,29 @@ const steps = [
   ["04", "Entrega", "Verificamos detalles y dejamos recomendaciones de mantenimiento."],
 ];
 
+const structureProjects = [
+  {
+    src: "/structure-1.jpg",
+    title: "Cubierta para acceso",
+    detail: "Estructura metálica con acabado residencial.",
+  },
+  {
+    src: "/structure-2.jpg",
+    title: "Terraza exterior",
+    detail: "Cubierta amplia fabricada e instalada a la medida.",
+  },
+  {
+    src: "/structure-3.jpg",
+    title: "Marquesina arquitectónica",
+    detail: "Integración de estructura, cubierta e iluminación.",
+  },
+  {
+    src: "/structure-4.jpg",
+    title: "Techo de policarbonato",
+    detail: "Protección funcional con paso controlado de luz.",
+  },
+];
+
 function money(value: number) {
   return new Intl.NumberFormat("es-MX", {
     style: "currency",
@@ -63,6 +86,44 @@ export default function Home() {
   const [serviceId, setServiceId] = useState("acrilico");
   const [area, setArea] = useState(50);
   const [chatOpen, setChatOpen] = useState(false);
+  const [currentProject, setCurrentProject] = useState(0);
+  const sprayerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let frame = 0;
+
+    const updateSprayer = () => {
+      frame = 0;
+      if (!sprayerRef.current) return;
+
+      const heroHeight =
+        document.getElementById("inicio")?.offsetHeight ?? window.innerHeight;
+      const progress = Math.min(1, Math.max(0, window.scrollY / heroHeight));
+      const distance = Math.min(window.innerWidth * 0.34, 510);
+      sprayerRef.current.style.setProperty(
+        "--sprayer-x",
+        `${-progress * distance}px`,
+      );
+      sprayerRef.current.style.setProperty(
+        "--spray-strength",
+        `${0.48 + progress * 0.52}`,
+      );
+    };
+
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateSprayer);
+    };
+
+    updateSprayer();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
 
   const selected = useMemo(
     () => services.find((service) => service.id === serviceId) ?? services[0],
@@ -107,7 +168,7 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Impertech, ir al inicio">
-          <img src="/impertech-logo.png" alt="Impertech" />
+          <img src="/impertech-logo-contrast.png" alt="Impertech" />
         </a>
         <nav aria-label="Navegación principal">
           <a href="#servicios">Sistemas</a>
@@ -124,10 +185,21 @@ export default function Home() {
       <section className="hero" id="inicio">
         <img
           className="hero-image"
-          src="/hero-airless.png"
-          alt="Técnico de Impertech aplicando impermeabilizante con equipo airless"
+          src="/hero-wall-v2.png"
+          alt="Pared exterior preparada para recibir impermeabilización"
         />
         <div className="hero-shade" />
+        <div className="hero-brand-card">
+          <img src="/impertech-logo-contrast.png" alt="Impertech" />
+        </div>
+        <div className="hero-sprayer" ref={sprayerRef} aria-hidden="true">
+          <div className="sprayer-scale">
+            <span className="spray-fan" />
+            <span className="spray-edge spray-edge-top" />
+            <span className="spray-edge spray-edge-bottom" />
+            <img src="/spray-hand-v2.png" alt="" />
+          </div>
+        </div>
         <div className="hero-copy">
           <p className="eyebrow">Impermeabilización · Querétaro y alrededores</p>
           <h1>
@@ -170,9 +242,25 @@ export default function Home() {
 
       <section className="brand-strip" aria-label="Marcas con las que trabajamos">
         <span>Trabajamos con sistemas y materiales de</span>
-        <strong>FESTER</strong>
+        <a
+          className="partner-logo fester-logo"
+          href="https://www.fester.com.mx/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Visitar Fester"
+        >
+          <img src="/fester-logo.png" alt="Fester" />
+        </a>
         <i />
-        <strong>SIKA</strong>
+        <a
+          className="partner-logo sika-logo"
+          href="https://mex.sika.com/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Visitar Sika México"
+        >
+          <img src="/sika-logo.png" alt="Sika" />
+        </a>
         <small>
           La selección depende del diagnóstico y requerimientos de cada obra.
         </small>
@@ -246,6 +334,21 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="application-showcase">
+        <img
+          src="/hero-airless.png"
+          alt="Aplicación profesional de impermeabilizante con equipo airless"
+        />
+        <div className="application-caption">
+          <p className="eyebrow">Aplicación profesional</p>
+          <h2>Precisión que se nota en cada metro.</h2>
+          <p>
+            Equipo especializado, cobertura homogénea y cuidado de cada detalle
+            para una entrega limpia y eficiente.
+          </p>
+        </div>
+      </section>
+
       <section className="equipment">
         <div className="equipment-visual" aria-hidden="true">
           <span className="spray spray-one" />
@@ -297,17 +400,89 @@ export default function Home() {
             Cuéntanos tu proyecto <span aria-hidden="true">↗</span>
           </a>
         </div>
-        <div className="structure-visual" aria-label="Representación de una cubierta metálica">
-          <div className="roof-lines">
-            {Array.from({ length: 9 }).map((_, index) => (
-              <i key={index} />
+        <div
+          className="structure-carousel"
+          role="region"
+          aria-roledescription="carrusel"
+          aria-label="Proyectos de estructuras realizados por Impertech"
+        >
+          <div
+            className="structure-track"
+            style={{ transform: `translateX(-${currentProject * 100}%)` }}
+          >
+            {structureProjects.map((project, projectIndex) => (
+              <article
+                className="structure-slide"
+                key={project.src}
+                aria-hidden={currentProject !== projectIndex}
+              >
+                <div className="project-image">
+                  <div className="project-fallback" aria-hidden="true">
+                    <div className="fallback-roof">
+                      {Array.from({ length: 9 }).map((_, lineIndex) => (
+                        <i key={lineIndex} />
+                      ))}
+                    </div>
+                    <span />
+                    <b />
+                  </div>
+                  <img
+                    src={project.src}
+                    alt={`${project.title}, proyecto realizado por Impertech`}
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
+                    }}
+                  />
+                </div>
+                <div className="project-caption">
+                  <span>Proyecto 0{projectIndex + 1}</span>
+                  <div>
+                    <h3>{project.title}</h3>
+                    <p>{project.detail}</p>
+                  </div>
+                </div>
+              </article>
             ))}
           </div>
-          <div className="steel-beam beam-a" />
-          <div className="steel-beam beam-b" />
-          <div className="steel-post post-a" />
-          <div className="steel-post post-b" />
-          <span>Diseño · Fabricación · Instalación</span>
+          <div className="carousel-controls">
+            <button
+              type="button"
+              aria-label="Proyecto anterior"
+              onClick={() =>
+                setCurrentProject(
+                  (currentProject - 1 + structureProjects.length) %
+                    structureProjects.length,
+                )
+              }
+            >
+              ←
+            </button>
+            <div className="carousel-dots" aria-label="Elegir proyecto">
+              {structureProjects.map((project, projectIndex) => (
+                <button
+                  type="button"
+                  key={project.src}
+                  className={currentProject === projectIndex ? "active" : ""}
+                  aria-label={`Ver proyecto ${projectIndex + 1}`}
+                  aria-current={
+                    currentProject === projectIndex ? "true" : undefined
+                  }
+                  onClick={() => setCurrentProject(projectIndex)}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              aria-label="Proyecto siguiente"
+              onClick={() =>
+                setCurrentProject(
+                  (currentProject + 1) % structureProjects.length,
+                )
+              }
+            >
+              →
+            </button>
+          </div>
         </div>
       </section>
 
@@ -496,7 +671,7 @@ export default function Home() {
 
       <footer>
         <div className="footer-brand">
-          <img src="/impertech-logo.png" alt="Impertech" />
+          <img src="/impertech-logo-contrast.png" alt="Impertech" />
           <p>
             Soluciones en impermeabilización y mantenimiento integral para
             hogares, comercios e industria.
