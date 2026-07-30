@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "https://impertech-soluciones.loh-rodrigo.chatgpt.site";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Impertech | Impermeabilización y mantenimiento en Querétaro",
   description:
     "Impermeabilización profesional, estructuras, techos y mantenimiento residencial e industrial. Cotiza tu proyecto por m².",

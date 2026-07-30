@@ -1,0 +1,12 @@
+.openai
+.env*
+.vercel
+build
+db
+dist
+drizzle
+drizzle.config.ts
+examples
+tmp
+vite.config.ts
+worker
