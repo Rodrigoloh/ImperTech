@@ -1667,11 +1667,12 @@ footer div > a {
   .system-viewport {
     -webkit-overflow-scrolling: touch;
     overflow-x: auto;
-    overscroll-behavior-x: contain;
+    overflow-y: visible;
+    overscroll-behavior-x: auto;
     padding: 0;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
     scrollbar-width: none;
-    touch-action: pan-x;
+    touch-action: auto;
   }
 
   .system-viewport::-webkit-scrollbar {
