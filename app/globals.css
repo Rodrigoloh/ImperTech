@@ -361,60 +361,47 @@ a {
 }
 
 .brand-strip {
-  align-items: center;
-  background: #eef3f8;
-  color: #6e7784;
-  display: flex;
-  gap: clamp(24px, 4vw, 64px);
-  justify-content: center;
-  min-height: 100px;
-  padding: 20px 5vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 190px;
 }
 
-.brand-strip > span {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+.brand-panel {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  padding: 28px;
+}
+
+.brand-panel span {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.partner-logo {
-  align-items: center;
-  display: flex;
-  height: 58px;
-  justify-content: center;
-  width: 142px;
-}
-
-.partner-logo img {
+.brand-panel img {
   display: block;
-  height: 100%;
+  height: 105px;
   object-fit: contain;
-  width: 100%;
+  width: min(250px, 75%);
 }
 
-.fester-logo img {
-  object-fit: contain;
+.fester-panel {
+  background: #075ca8;
+  color: rgba(255, 255, 255, 0.82);
 }
 
-.sika-logo {
-  height: 58px;
-  width: 142px;
+.sika-panel {
+  background: #ffd600;
+  color: #342d00;
 }
 
-.brand-strip i {
-  background: #b6c1cd;
-  border-radius: 50%;
-  height: 4px;
-  width: 4px;
-}
-
-.brand-strip small {
-  border-left: 1px solid #cbd5df;
-  font-size: 10px;
-  line-height: 1.5;
-  max-width: 290px;
-  padding-left: 28px;
+.sika-panel img {
+  height: 128px;
+  width: min(260px, 78%);
 }
 
 .section {
@@ -445,19 +432,19 @@ a {
 
 .systems-scroll {
   background: #f4f7fa;
-  height: 320vh;
+  height: auto;
+  padding: 110px 0;
   position: relative;
 }
 
 .systems-sticky {
   display: flex;
   flex-direction: column;
-  height: 100svh;
+  height: auto;
   justify-content: center;
-  overflow: hidden;
-  padding: 44px 0 24px;
-  position: sticky;
-  top: 0;
+  overflow: visible;
+  padding: 0;
+  position: relative;
 }
 
 .systems-sticky .section-heading {
@@ -467,20 +454,18 @@ a {
 }
 
 .system-viewport {
-  overflow: visible;
+  padding: 0 clamp(24px, 6vw, 96px);
   width: 100%;
 }
 
 .system-grid {
-  --systems-x: 0px;
   align-items: stretch;
-  display: flex;
-  margin-left: clamp(24px, 6vw, 96px);
-  padding-right: 12vw;
-  transform: translate3d(var(--systems-x), 0, 0);
-  transition: transform 0.08s linear;
-  width: max-content;
-  will-change: transform;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 auto;
+  max-width: 1370px;
+  width: 100%;
 }
 
 .system-card {
@@ -488,7 +473,6 @@ a {
   border: 3px solid rgba(255, 255, 255, 0.92);
   box-shadow: 0 24px 65px rgba(3, 19, 38, 0.2);
   display: flex;
-  flex: 0 0 clamp(300px, 28vw, 410px);
   flex-direction: column;
   justify-content: flex-end;
   overflow: hidden;
@@ -500,7 +484,7 @@ a {
 }
 
 .system-card + .system-card {
-  margin-left: clamp(-58px, -3.8vw, -34px);
+  margin-left: 0;
 }
 
 .system-photo {
@@ -584,6 +568,7 @@ a {
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.12em;
+  display: none;
   margin: 18px clamp(24px, 6vw, 96px) 0;
   text-transform: uppercase;
 }
@@ -851,9 +836,10 @@ a {
 }
 
 .project-image > img {
+  background: #071523;
   height: 100%;
   inset: 0;
-  object-fit: cover;
+  object-fit: contain;
   position: absolute;
   width: 100%;
   z-index: 2;
@@ -1578,25 +1564,27 @@ footer div > a {
   }
 
   .brand-strip {
-    flex-wrap: wrap;
-    gap: 18px 28px;
-    justify-content: flex-start;
-    padding: 25px 22px;
+    grid-template-columns: 1fr 1fr;
+    min-height: 155px;
   }
 
-  .brand-strip > span,
-  .brand-strip small {
-    flex-basis: 100%;
+  .brand-panel {
+    gap: 9px;
+    padding: 18px 10px;
   }
 
-  .partner-logo {
-    height: 56px;
-    width: 116px;
+  .brand-panel span {
+    font-size: 8px;
   }
 
-  .brand-strip small {
-    border-left: 0;
-    padding-left: 0;
+  .brand-panel img {
+    height: 76px;
+    width: 92%;
+  }
+
+  .sika-panel img {
+    height: 98px;
+    width: 94%;
   }
 
   .section,
@@ -1622,30 +1610,40 @@ footer div > a {
   }
 
   .system-grid {
-    margin-left: 22px;
-    padding-right: 22px;
+    display: flex;
+    gap: 0;
+    margin: 0;
+    max-width: none;
+    padding: 0;
+    width: max-content;
   }
 
   .system-card {
-    flex-basis: 82vw;
-    min-height: 390px;
-    padding: 26px;
+    aspect-ratio: 0.82;
+    flex: 0 0 100vw;
+    min-height: 0;
+    padding: 28px 24px;
+    scroll-snap-align: start;
+    width: 100vw;
   }
 
   .system-card + .system-card {
-    margin-left: -26px;
+    margin-left: 0;
   }
 
   .systems-scroll {
-    height: 300vh;
+    height: auto;
+    padding: 78px 0 0;
   }
 
   .systems-sticky {
-    padding: 34px 0 18px;
+    height: auto;
+    padding: 0;
+    position: relative;
   }
 
   .systems-sticky .section-heading {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     padding: 0 22px;
   }
 
@@ -1654,7 +1652,22 @@ footer div > a {
   }
 
   .systems-scroll-hint {
-    margin: 14px 22px 0;
+    display: block;
+    margin: 14px 22px 22px;
+  }
+
+  .system-viewport {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 0;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .system-viewport::-webkit-scrollbar {
+    display: none;
   }
 
   .process-section {

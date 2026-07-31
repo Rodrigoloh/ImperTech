@@ -57,22 +57,22 @@ const steps = [
 
 const structureProjects = [
   {
-    src: "/structure-1.jpg",
-    title: "Cubierta para acceso",
-    detail: "Estructura metálica con acabado residencial.",
-  },
-  {
-    src: "/structure-2.jpg",
-    title: "Terraza exterior",
-    detail: "Cubierta amplia fabricada e instalada a la medida.",
-  },
-  {
-    src: "/structure-3.jpg",
+    src: "/structure-casa-1.webp",
     title: "Marquesina arquitectónica",
-    detail: "Integración de estructura, cubierta e iluminación.",
+    detail: "Cubierta metálica integrada a una fachada residencial.",
   },
   {
-    src: "/structure-4.jpg",
+    src: "/structure-casa-2.webp",
+    title: "Cubierta para acceso",
+    detail: "Estructura ligera fabricada e instalada a la medida.",
+  },
+  {
+    src: "/structure-casa-3.webp",
+    title: "Terraza exterior",
+    detail: "Cubierta amplia para proteger y aprovechar el patio.",
+  },
+  {
+    src: "/structure-casa-4.webp",
     title: "Techo de policarbonato",
     detail: "Protección funcional con paso controlado de luz.",
   },
@@ -93,8 +93,6 @@ export default function Home() {
   const [currentProject, setCurrentProject] = useState(0);
   const sprayerRef = useRef<HTMLDivElement>(null);
   const applicationRef = useRef<HTMLElement>(null);
-  const systemsRef = useRef<HTMLElement>(null);
-  const systemsTrackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -132,23 +130,6 @@ export default function Home() {
         );
       }
 
-      if (systemsRef.current && systemsTrackRef.current) {
-        const rect = systemsRef.current.getBoundingClientRect();
-        const scrollDistance = Math.max(
-          1,
-          systemsRef.current.offsetHeight - window.innerHeight,
-        );
-        const progress = Math.min(1, Math.max(0, -rect.top / scrollDistance));
-        const sidePadding = window.innerWidth <= 760 ? 22 : 96;
-        const maxTranslate = Math.max(
-          0,
-          systemsTrackRef.current.scrollWidth - window.innerWidth + sidePadding,
-        );
-        systemsTrackRef.current.style.setProperty(
-          "--systems-x",
-          `${-progress * maxTranslate}px`,
-        );
-      }
     };
 
     const onScroll = () => {
@@ -264,32 +245,29 @@ export default function Home() {
       </section>
 
       <section className="brand-strip" aria-label="Marcas con las que trabajamos">
-        <span>Trabajamos con sistemas y materiales de</span>
         <a
-          className="partner-logo fester-logo"
+          className="brand-panel fester-panel"
           href="https://www.fester.com.mx/"
           target="_blank"
           rel="noreferrer"
           aria-label="Visitar Fester"
         >
+          <span>Trabajamos con</span>
           <img src="/fester-logo-transparent.png" alt="Fester" />
         </a>
-        <i />
         <a
-          className="partner-logo sika-logo"
+          className="brand-panel sika-panel"
           href="https://mex.sika.com/"
           target="_blank"
           rel="noreferrer"
           aria-label="Visitar Sika México"
         >
+          <span>Trabajamos con</span>
           <img src="/sika-logo.png" alt="Sika" />
         </a>
-        <small>
-          La selección depende del diagnóstico y requerimientos de cada obra.
-        </small>
       </section>
 
-      <section className="systems-scroll" id="servicios" ref={systemsRef}>
+      <section className="systems-scroll" id="servicios">
         <div className="systems-sticky">
           <div className="section-heading">
             <div>
@@ -303,7 +281,7 @@ export default function Home() {
             </p>
           </div>
           <div className="system-viewport">
-            <div className="system-grid" ref={systemsTrackRef}>
+            <div className="system-grid">
               {services.map((service, index) => (
                 <article className="system-card" key={service.id}>
                   <img
