@@ -12,6 +12,7 @@ const services = [
     name: "Sistema acrílico",
     price: 90,
     unit: "m²",
+    image: "/service-acrylic.webp",
     description:
       "Aplicación uniforme para losas residenciales y comerciales.",
   },
@@ -21,6 +22,7 @@ const services = [
     name: "Prefabricado + acrílico",
     price: 160,
     unit: "m²",
+    image: "/service-prefabricated.webp",
     description:
       "Sistema reforzado para superficies con mayores exigencias.",
   },
@@ -30,6 +32,7 @@ const services = [
     name: "Impermeabilizante cementoso",
     price: 80,
     unit: "m²",
+    image: "/service-cementitious.webp",
     description:
       "Protección mineral para muros, cisternas y superficies de concreto.",
   },
@@ -39,6 +42,7 @@ const services = [
     name: "Barrera de vapor",
     price: 60,
     unit: "m²",
+    image: "/service-vapor-barrier.webp",
     description:
       "Control de humedad y condensación en sistemas constructivos.",
   },
@@ -88,26 +92,43 @@ export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);
   const [currentProject, setCurrentProject] = useState(0);
   const sprayerRef = useRef<HTMLDivElement>(null);
+  const applicationRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let frame = 0;
 
     const updateSprayer = () => {
       frame = 0;
-      if (!sprayerRef.current) return;
+      if (sprayerRef.current) {
+        const heroHeight =
+          document.getElementById("inicio")?.offsetHeight ?? window.innerHeight;
+        const progress = Math.min(1, Math.max(0, window.scrollY / heroHeight));
+        const distance = Math.min(window.innerWidth * 0.34, 510);
+        sprayerRef.current.style.setProperty(
+          "--sprayer-x",
+          `${-progress * distance}px`,
+        );
+        sprayerRef.current.style.setProperty(
+          "--spray-strength",
+          `${0.38 + progress * 0.38}`,
+        );
+      }
 
-      const heroHeight =
-        document.getElementById("inicio")?.offsetHeight ?? window.innerHeight;
-      const progress = Math.min(1, Math.max(0, window.scrollY / heroHeight));
-      const distance = Math.min(window.innerWidth * 0.34, 510);
-      sprayerRef.current.style.setProperty(
-        "--sprayer-x",
-        `${-progress * distance}px`,
-      );
-      sprayerRef.current.style.setProperty(
-        "--spray-strength",
-        `${0.48 + progress * 0.52}`,
-      );
+      if (applicationRef.current) {
+        const rect = applicationRef.current.getBoundingClientRect();
+        const progress = Math.min(
+          1,
+          Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)),
+        );
+        applicationRef.current.style.setProperty(
+          "--application-photo-y",
+          `${(progress - 0.5) * 54}px`,
+        );
+        applicationRef.current.style.setProperty(
+          "--application-copy-y",
+          `${(0.5 - progress) * 34}px`,
+        );
+      }
     };
 
     const onScroll = () => {
@@ -185,8 +206,9 @@ export default function Home() {
       <section className="hero" id="inicio">
         <img
           className="hero-image"
-          src="/hero-wall-v2.png"
+          src="/hero-wall-v2.webp"
           alt="Pared exterior preparada para recibir impermeabilización"
+          fetchPriority="high"
         />
         <div className="hero-shade" />
         <div className="hero-brand-card">
@@ -195,9 +217,7 @@ export default function Home() {
         <div className="hero-sprayer" ref={sprayerRef} aria-hidden="true">
           <div className="sprayer-scale">
             <span className="spray-fan" />
-            <span className="spray-edge spray-edge-top" />
-            <span className="spray-edge spray-edge-bottom" />
-            <img src="/spray-hand-v2.png" alt="" />
+            <img src="/spray-hand-v2.webp" alt="" fetchPriority="high" />
           </div>
         </div>
         <div className="hero-copy">
@@ -249,7 +269,7 @@ export default function Home() {
           rel="noreferrer"
           aria-label="Visitar Fester"
         >
-          <img src="/fester-logo.png" alt="Fester" />
+          <img src="/fester-logo-transparent.png" alt="Fester" />
         </a>
         <i />
         <a
@@ -281,6 +301,12 @@ export default function Home() {
         <div className="system-grid">
           {services.map((service, index) => (
             <article className="system-card" key={service.id}>
+              <img
+                className="system-photo"
+                src={service.image}
+                alt=""
+                loading="lazy"
+              />
               <span className="card-index">0{index + 1}</span>
               <div className={`system-icon icon-${index + 1}`} aria-hidden="true">
                 <i />
@@ -334,10 +360,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="application-showcase">
+      <section className="application-showcase" ref={applicationRef}>
         <img
-          src="/hero-airless.png"
+          src="/application-airless-v2.webp"
           alt="Aplicación profesional de impermeabilizante con equipo airless"
+          loading="lazy"
         />
         <div className="application-caption">
           <p className="eyebrow">Aplicación profesional</p>
@@ -350,15 +377,6 @@ export default function Home() {
       </section>
 
       <section className="equipment">
-        <div className="equipment-visual" aria-hidden="true">
-          <span className="spray spray-one" />
-          <span className="spray spray-two" />
-          <span className="spray spray-three" />
-          <div className="machine">
-            <i />
-            <b />
-          </div>
-        </div>
         <div className="equipment-copy">
           <p className="eyebrow">Tecnología aplicada</p>
           <h2>Más uniforme. Más eficiente. Más profesional.</h2>
