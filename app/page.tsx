@@ -2,8 +2,9 @@
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
-const PHONE_CALL = "524421186062";
 const PHONE_QUOTE = "524461255861";
+const FACEBOOK_URL =
+  "https://www.facebook.com/share/1HV5MeSkM9/?mibextid=wwXIfr";
 
 const services = [
   {
@@ -652,10 +653,6 @@ export default function Home() {
           <h2>Hablemos de tu propiedad.</h2>
         </div>
         <div className="contact-actions">
-          <a href={`tel:+${PHONE_CALL}`}>
-            <small>Llamadas, dudas y aclaraciones</small>
-            <strong>442 118 6062</strong>
-          </a>
           <a
             href={`https://wa.me/${PHONE_QUOTE}?text=${encodeURIComponent("Hola Impertech, quiero una cotización.")}`}
             target="_blank"
@@ -663,6 +660,10 @@ export default function Home() {
           >
             <small>Cotizaciones por WhatsApp</small>
             <strong>446 125 5861</strong>
+          </a>
+          <a href={FACEBOOK_URL} target="_blank" rel="noreferrer">
+            <small>Conoce nuestros trabajos</small>
+            <strong>Facebook ↗</strong>
           </a>
         </div>
       </section>
@@ -683,7 +684,6 @@ export default function Home() {
         </div>
         <div>
           <strong>Contacto</strong>
-          <a href={`tel:+${PHONE_CALL}`}>442 118 6062</a>
           <a
             href={`https://wa.me/${PHONE_QUOTE}`}
             target="_blank"
@@ -692,7 +692,7 @@ export default function Home() {
             446 125 5861
           </a>
           <a
-            href="https://www.facebook.com/share/1HV5MeSkM9/?mibextid=wwXIfr"
+            href={FACEBOOK_URL}
             target="_blank"
             rel="noreferrer"
           >
@@ -736,7 +736,7 @@ export default function Home() {
           aria-label={chatOpen ? "Cerrar ayuda por WhatsApp" : "Abrir ayuda por WhatsApp"}
           onClick={() => setChatOpen((value) => !value)}
         >
-          <span aria-hidden="true">WA</span>
+          <img src="/whatsapp.svg" alt="" aria-hidden="true" />
           <i />
         </button>
       </div>
