@@ -93,6 +93,8 @@ export default function Home() {
   const [currentProject, setCurrentProject] = useState(0);
   const sprayerRef = useRef<HTMLDivElement>(null);
   const applicationRef = useRef<HTMLElement>(null);
+  const systemsRef = useRef<HTMLElement>(null);
+  const systemsTrackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -127,6 +129,24 @@ export default function Home() {
         applicationRef.current.style.setProperty(
           "--application-copy-y",
           `${(0.5 - progress) * 34}px`,
+        );
+      }
+
+      if (systemsRef.current && systemsTrackRef.current) {
+        const rect = systemsRef.current.getBoundingClientRect();
+        const scrollDistance = Math.max(
+          1,
+          systemsRef.current.offsetHeight - window.innerHeight,
+        );
+        const progress = Math.min(1, Math.max(0, -rect.top / scrollDistance));
+        const sidePadding = window.innerWidth <= 760 ? 22 : 96;
+        const maxTranslate = Math.max(
+          0,
+          systemsTrackRef.current.scrollWidth - window.innerWidth + sidePadding,
+        );
+        systemsTrackRef.current.style.setProperty(
+          "--systems-x",
+          `${-progress * maxTranslate}px`,
         );
       }
     };
@@ -187,22 +207,6 @@ export default function Home() {
 
   return (
     <main>
-      <header className="site-header">
-        <a className="brand" href="#inicio" aria-label="Impertech, ir al inicio">
-          <img src="/impertech-logo-contrast.png" alt="Impertech" />
-        </a>
-        <nav aria-label="Navegación principal">
-          <a href="#servicios">Sistemas</a>
-          <a href="#proceso">Proceso</a>
-          <a href="#estructuras">Estructuras</a>
-          <a href="#cotizador">Cotizador</a>
-        </nav>
-        <a className="header-phone" href={`tel:+${PHONE_CALL}`}>
-          <span>Llámanos</span>
-          442 118 6062
-        </a>
-      </header>
-
       <section className="hero" id="inicio">
         <img
           className="hero-image"
@@ -221,7 +225,6 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-copy">
-          <p className="eyebrow">Impermeabilización · Querétaro y alrededores</p>
           <h1>
             Tu propiedad,
             <span> protegida de raíz.</span>
@@ -286,55 +289,53 @@ export default function Home() {
         </small>
       </section>
 
-      <section className="section systems" id="servicios">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow blue">Sistemas de impermeabilización</p>
-            <h2>La solución correcta para cada superficie.</h2>
+      <section className="systems-scroll" id="servicios" ref={systemsRef}>
+        <div className="systems-sticky">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow blue">Sistemas de impermeabilización</p>
+              <h2>La solución correcta para cada superficie.</h2>
+            </div>
+            <p>
+              No todos los problemas de humedad se resuelven igual. Elegimos el
+              sistema según el sustrato, el uso del espacio y el nivel de
+              exposición.
+            </p>
           </div>
-          <p>
-            No todos los problemas de humedad se resuelven igual. Elegimos el
-            sistema según el sustrato, el uso del espacio y el nivel de
-            exposición.
+          <div className="system-viewport">
+            <div className="system-grid" ref={systemsTrackRef}>
+              {services.map((service, index) => (
+                <article className="system-card" key={service.id}>
+                  <img
+                    className="system-photo"
+                    src={service.image}
+                    alt=""
+                    loading="lazy"
+                  />
+                  <span className="card-index">0{index + 1}</span>
+                  <div className="system-card-copy">
+                    <h3>{service.name}</h3>
+                    <p>{service.description}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setServiceId(service.id);
+                      document
+                        .getElementById("cotizador")
+                        ?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                  >
+                    Cotizar este sistema <span aria-hidden="true">→</span>
+                  </button>
+                </article>
+              ))}
+            </div>
+          </div>
+          <p className="systems-scroll-hint">
+            Desliza para explorar los sistemas
           </p>
         </div>
-        <div className="system-grid">
-          {services.map((service, index) => (
-            <article className="system-card" key={service.id}>
-              <img
-                className="system-photo"
-                src={service.image}
-                alt=""
-                loading="lazy"
-              />
-              <span className="card-index">0{index + 1}</span>
-              <div className={`system-icon icon-${index + 1}`} aria-hidden="true">
-                <i />
-              </div>
-              <h3>{service.name}</h3>
-              <p>{service.description}</p>
-              <div className="price">
-                <strong>{money(service.price)}</strong>
-                <span>/ {service.unit}</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setServiceId(service.id);
-                  document
-                    .getElementById("cotizador")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Calcular este sistema <span aria-hidden="true">→</span>
-              </button>
-            </article>
-          ))}
-        </div>
-        <p className="price-note">
-          * Precios de referencia para aplicación. La preparación, reparaciones,
-          accesos y condiciones especiales se cotizan después de la revisión.
-        </p>
       </section>
 
       <section className="process-section" id="proceso">
