@@ -245,26 +245,27 @@ export default function Home() {
       </section>
 
       <section className="brand-strip" aria-label="Marcas con las que trabajamos">
-        <a
-          className="brand-panel fester-panel"
-          href="https://www.fester.com.mx/"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Visitar Fester"
-        >
-          <span>Trabajamos con</span>
-          <img src="/fester-logo-transparent.png" alt="Fester" />
-        </a>
-        <a
-          className="brand-panel sika-panel"
-          href="https://mex.sika.com/"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Visitar Sika México"
-        >
-          <span>Trabajamos con</span>
-          <img src="/sika-logo.png" alt="Sika" />
-        </a>
+        <p>Trabajamos con los mejores productos</p>
+        <div className="brand-logos">
+          <a
+            className="brand-logo fester-brand-logo"
+            href="https://www.fester.com.mx/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Visitar Fester"
+          >
+            <img src="/fester-logo-transparent.png" alt="Fester" />
+          </a>
+          <a
+            className="brand-logo sika-brand-logo"
+            href="https://mex.sika.com/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Visitar Sika México"
+          >
+            <img src="/sika-logo.png" alt="Sika" />
+          </a>
+        </div>
       </section>
 
       <section className="systems-scroll" id="servicios">

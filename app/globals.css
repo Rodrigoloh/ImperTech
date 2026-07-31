@@ -361,47 +361,47 @@ a {
 }
 
 .brand-strip {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 190px;
-}
-
-.brand-panel {
   align-items: center;
+  background: #e5e8ec;
   display: flex;
   flex-direction: column;
-  gap: 15px;
   justify-content: center;
-  padding: 28px;
+  min-height: 270px;
+  padding: 28px 5vw 34px;
 }
 
-.brand-panel span {
-  font-size: 10px;
+.brand-strip > p {
+  color: #4f5b68;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.15em;
+  margin: 0 0 12px;
+  text-align: center;
   text-transform: uppercase;
 }
 
-.brand-panel img {
+.brand-logos {
+  align-items: center;
+  display: flex;
+  gap: clamp(52px, 9vw, 150px);
+  justify-content: center;
+  min-height: 185px;
+  width: 100%;
+}
+
+.brand-logo img {
   display: block;
-  height: 105px;
   object-fit: contain;
-  width: min(250px, 75%);
 }
 
-.fester-panel {
-  background: #075ca8;
-  color: rgba(255, 255, 255, 0.82);
+.fester-brand-logo img {
+  height: 105px;
+  width: 250px;
 }
 
-.sika-panel {
-  background: #ffd600;
-  color: #342d00;
-}
-
-.sika-panel img {
-  height: 128px;
-  width: min(260px, 78%);
+.sika-brand-logo img {
+  height: 192px;
+  width: 390px;
 }
 
 .section {
@@ -1564,27 +1564,28 @@ footer div > a {
   }
 
   .brand-strip {
-    grid-template-columns: 1fr 1fr;
-    min-height: 155px;
+    min-height: 220px;
+    padding: 24px 12px 26px;
   }
 
-  .brand-panel {
-    gap: 9px;
-    padding: 18px 10px;
+  .brand-strip > p {
+    font-size: 9px;
+    margin-bottom: 8px;
   }
 
-  .brand-panel span {
-    font-size: 8px;
+  .brand-logos {
+    gap: 12px;
+    min-height: 145px;
   }
 
-  .brand-panel img {
-    height: 76px;
-    width: 92%;
+  .fester-brand-logo img {
+    height: 72px;
+    width: 130px;
   }
 
-  .sika-panel img {
-    height: 98px;
-    width: 94%;
+  .sika-brand-logo img {
+    height: 147px;
+    width: 190px;
   }
 
   .section,
