@@ -143,11 +143,9 @@ a {
 
 .hero-brand-card {
   align-items: center;
-  background: rgba(4, 18, 35, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.18);
   display: flex;
   justify-content: center;
-  padding: 16px 20px;
+  padding: 0;
   position: absolute;
   right: clamp(24px, 5vw, 76px);
   top: 112px;
@@ -188,24 +186,36 @@ a {
 }
 
 .spray-fan {
-  background:
-    linear-gradient(
-      90deg,
-      rgba(170, 225, 255, 0),
-      rgba(145, 214, 255, 0.12) 34%,
-      rgba(190, 232, 255, 0.34) 70%,
-      rgba(235, 249, 255, 0.72)
-    );
-  clip-path: polygon(0 3%, 100% 42%, 100% 58%, 0 97%);
-  filter: blur(13px);
-  height: 220px;
+  background: radial-gradient(
+    ellipse 110% 64% at 100% 50%,
+    rgba(238, 250, 255, 0.76) 0%,
+    rgba(188, 231, 255, 0.38) 24%,
+    rgba(121, 204, 255, 0.16) 48%,
+    rgba(89, 189, 255, 0.05) 65%,
+    transparent 78%
+  );
+  filter: blur(22px);
+  height: 300px;
   opacity: var(--spray-strength);
   position: absolute;
   right: 83.7%;
-  top: 10.6%;
+  top: 3.4%;
   transform-origin: right center;
   width: min(62vw, 920px);
   z-index: 2;
+}
+
+.spray-fan::after {
+  background: radial-gradient(
+    ellipse 105% 34% at 100% 50%,
+    rgba(248, 253, 255, 0.52),
+    rgba(165, 221, 255, 0.17) 46%,
+    transparent 76%
+  );
+  content: "";
+  filter: blur(12px);
+  inset: 17% 0;
+  position: absolute;
 }
 
 .hero-copy {
@@ -441,11 +451,12 @@ a {
 }
 
 .system-card {
-  background: var(--paper);
+  background: var(--ink);
   border-top: 3px solid transparent;
   display: flex;
   flex-direction: column;
-  min-height: 420px;
+  min-height: 460px;
+  overflow: hidden;
   padding: 28px;
   position: relative;
   transition:
@@ -455,19 +466,47 @@ a {
 }
 
 .system-photo {
-  display: none;
+  display: block;
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  position: absolute;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+  z-index: 0;
+}
+
+.system-card::after {
+  background: linear-gradient(
+    180deg,
+    rgba(3, 16, 31, 0.48) 0%,
+    rgba(3, 16, 31, 0.7) 48%,
+    rgba(3, 16, 31, 0.97) 100%
+  );
+  content: "";
+  inset: 0;
+  position: absolute;
+  z-index: 1;
 }
 
 .system-card:hover {
-  background: var(--white);
-  border-color: var(--blue);
-  box-shadow: 0 25px 60px rgba(4, 20, 39, 0.09);
+  border-color: #70c3ff;
+  box-shadow: 0 25px 60px rgba(4, 20, 39, 0.24);
   transform: translateY(-6px);
   z-index: 2;
 }
 
+.system-card:hover .system-photo {
+  transform: scale(1.045);
+}
+
+.system-card > *:not(.system-photo) {
+  position: relative;
+  z-index: 2;
+}
+
 .card-index {
-  color: #99a4b1;
+  color: rgba(255, 255, 255, 0.72);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -478,7 +517,7 @@ a {
 
 .system-icon {
   align-items: center;
-  border: 1px solid #ccd8e5;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   display: flex;
   height: 64px;
   justify-content: center;
@@ -490,7 +529,7 @@ a {
 .system-icon::before,
 .system-icon::after,
 .system-icon i {
-  background: var(--blue);
+  background: var(--white);
   content: "";
   display: block;
   position: absolute;
@@ -504,7 +543,7 @@ a {
 }
 
 .icon-1::after {
-  background: var(--paper);
+  background: rgba(3, 16, 31, 0.75);
   border-radius: 50%;
   height: 15px;
   width: 15px;
@@ -517,7 +556,7 @@ a {
 }
 
 .icon-2::after {
-  border: 4px solid var(--blue);
+  border: 4px solid var(--white);
   border-radius: 50%;
   background: transparent;
   height: 20px;
@@ -527,7 +566,7 @@ a {
 
 .icon-3::before {
   background: transparent;
-  border: 3px solid var(--blue);
+  border: 3px solid var(--white);
   height: 30px;
   transform: skew(-13deg);
   width: 28px;
@@ -553,13 +592,14 @@ a {
 }
 
 .system-card h3 {
+  color: var(--white);
   font-size: 19px;
   letter-spacing: -0.025em;
   margin: 0 0 13px;
 }
 
 .system-card > p {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.76);
   font-size: 13px;
   line-height: 1.65;
   margin: 0 0 27px;
@@ -573,21 +613,21 @@ a {
 }
 
 .price strong {
-  color: var(--navy);
+  color: var(--white);
   font-size: 26px;
   letter-spacing: -0.04em;
 }
 
 .price span {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.68);
   font-size: 11px;
 }
 
 .system-card button {
   background: none;
   border: 0;
-  border-top: 1px solid var(--line);
-  color: var(--blue);
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
+  color: var(--white);
   cursor: pointer;
   display: flex;
   font-size: 10px;
@@ -1560,9 +1600,9 @@ footer div > a {
   }
 
   .spray-fan {
-    filter: blur(10px);
-    height: 180px;
-    top: 12%;
+    filter: blur(17px);
+    height: 240px;
+    top: 5%;
     width: 88vw;
   }
 
@@ -1646,18 +1686,13 @@ footer div > a {
   }
 
   .system-card {
-    min-height: 480px;
-    overflow: hidden;
-    padding-top: 208px;
+    min-height: 440px;
+    padding: 26px;
   }
 
   .system-photo {
-    display: block;
-    height: 180px;
-    inset: 0 0 auto;
-    object-fit: cover;
-    position: absolute;
-    width: 100%;
+    height: 100%;
+    inset: 0;
   }
 
   .system-card .system-icon {
